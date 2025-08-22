@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Preços - Luna Fleur</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .glass {
+            background: rgb(247,231,206, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid #DC9750;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #922c40 0%, #1e2640 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgb(247,231,206, 0.1);
+        }
+        
+        .range-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #1e2640, #DC9750, #f7e7ce, #922c40);
+            outline: none;
+        }
+        
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgb(247,231,206, 0.1);
+        }
+        
+        .range-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 10px rgb(247,231,206);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen py-8 px-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+                 Luna Fleur
+            </h1>
+            <p class="text-xl text-white/80 font-light">
+                Calculadora de Preços Profissional
+            </p>
+        </div>
+
+        <!-- Calculator Cards -->
+        <div class="grid md:grid-cols-2 gap-8 mb-8">
+            <!-- Services Card -->
+            <div class="glass rounded-3xl p-8 card-hover">
+                <h2 class="text-2xl font-semibold text-white mb-6 flex items-center">
+                    ⚙️ Serviços
+                </h2>
+                
+                <!-- Programação -->
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-white font-medium">Tempo de programação</label>
+                        <span class="text-white/80 text-sm">R$ <span id="sessionPrice">100</span>/hora</span>
+                    </div>
+                    <input type="range" min="100" max="300" value="100" 
+                           class="range-slider w-full mb-3" id="sessionRange">
+                    <div class="flex justify-between items-center mb-4">
+                        <input type="number" min="1" max="12" value="2" 
+                               class="w-20 px-3 py-2 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:border-white/60 focus:outline-none"
+                               id="sessionHours" placeholder="Horas">
+                        <span class="text-white font-semibold">= R$ <span id="sessionTotal">300</span></span>
+                    </div>
+                </div>
+
+                <!-- Seções -->
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-white font-medium">Telas por projeto</label>
+                        <span class="text-white/80 text-sm">R$ 50/seção</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-4">
+                        <input type="number" min="1" max="100" value="1" 
+                               class="w-24 px-3 py-2 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:border-white/60 focus:outline-none"
+                               id="editImages" placeholder="Imagens">
+                        <span class="text-white font-semibold">= R$ <span id="editTotal">500</span></span>
+                    </div>
+                </div>
+
+                <!-- Templates  Personalizados -->
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-white font-medium">Templates Personalizados</label>
+                        <span class="text-white/80 text-sm">R$ <span id="albumPrice">100</span></span>
+                    </div>
+                    <input type="range" min="100" max="300" value="100" 
+                           class="range-slider w-full mb-3" id="albumRange">
+                    <div class="flex justify-between items-center">
+                        <input type="number" min="0" max="10" value="1" 
+                               class="w-20 px-3 py-2 rounded-lg bg-white/20 text-white placeholder-white/60 border border-white/30 focus:border-white/60 focus:outline-none"
+                               id="albumQty" placeholder="Qtd">
+                        <span class="text-white font-semibold">= R$ <span id="albumTotal">100</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Card -->
+            <div class="glass rounded-3xl p-8 card-hover">
+                <h2 class="text-2xl font-semibold text-white mb-6 flex items-center">
+                    💰 Resumo do Orçamento
+                </h2>
+                
+                <div class="space-y-4 mb-6">
+                    <div class="flex justify-between items-center py-3 border-b border-white/20">
+                        <span class="text-white/80">Tempo de programação</span>
+                        <span class="text-white font-medium">R$ <span id="summarySession">300</span></span>
+                    </div>
+                    <div class="flex justify-between items-center py-3 border-b border-white/20">
+                        <span class="text-white/80">Telas por projeto</span>
+                        <span class="text-white font-medium">R$ <span id="summaryEdit">500</span></span>
+                    </div>
+                    <div class="flex justify-between items-center py-3 border-b border-white/20">
+                        <span class="text-white/80">Templates Personalizados</span>
+                        <span class="text-white font-medium">R$ <span id="summaryAlbum">100</span></span>
+                    </div>
+                </div>
+
+                <!-- Discount -->
+                <div class="mb-6">
+                    <label class="text-white font-medium mb-3 block">Desconto (%)</label>
+                    <input type="range" min="0" max="30" value="0" 
+                           class="range-slider w-full mb-2" id="discountRange">
+                    <div class="text-center">
+                        <span class="text-white/80 text-sm"><span id="discountPercent">0</span>% de desconto</span>
+                    </div>
+                </div>
+
+                <!-- Total -->
+                <div class="bg-white/20 rounded-2xl p-6 text-center">
+                    <p class="text-white/80 text-sm mb-2">Total do Projeto</p>
+                    <p class="text-4xl font-bold text-white mb-2">R$ <span id="finalTotal">900</span></p>
+                    <p class="text-white/60 text-sm">Economia: R$ <span id="savings">0</span></p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-6 space-y-3">
+                    <button onclick="generateQuote()" 
+                            class="w-full bg-white text-purple-600 font-semibold py-4 rounded-2xl hover:bg-white/90 transition-all duration-300 transform hover:scale-105">
+                        📋 Gerar Orçamento
+                    </button>
+                    <button onclick="resetCalculator()" 
+                            class="w-full bg-white/20 text-white font-medium py-3 rounded-2xl hover:bg-white/30 transition-all duration-300 border border-white/30">
+                        🔄 Limpar Tudo
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quote Modal -->
+        <div id="quoteModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+            <div class="glass rounded-3xl p-8 max-w-md w-full">
+                <h3 class="text-2xl font-bold text-white mb-4 text-center">📋 Orçamento Gerado</h3>
+                <div id="quoteContent" class="text-white/90 mb-6 space-y-2"></div>
+                <button onclick="closeQuote()" 
+                        class="w-full bg-white text-purple-600 font-semibold py-3 rounded-2xl hover:bg-white/90 transition-all duration-300">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Elements
+        const sessionRange = document.getElementById('sessionRange');
+        const sessionPrice = document.getElementById('sessionPrice');
+        const sessionHours = document.getElementById('sessionHours');
+        const sessionTotal = document.getElementById('sessionTotal');
+        
+        const editImages = document.getElementById('editImages');
+        const editTotal = document.getElementById('editTotal');
+        
+        const albumRange = document.getElementById('albumRange');
+        const albumPrice = document.getElementById('albumPrice');
+        const albumQty = document.getElementById('albumQty');
+        const albumTotal = document.getElementById('albumTotal');
+        
+        const discountRange = document.getElementById('discountRange');
+        const discountPercent = document.getElementById('discountPercent');
+        
+        const summarySession = document.getElementById('summarySession');
+        const summaryEdit = document.getElementById('summaryEdit');
+        const summaryAlbum = document.getElementById('summaryAlbum');
+        const finalTotal = document.getElementById('finalTotal');
+        const savings = document.getElementById('savings');
+
+        // Update functions
+        function updateSessionPrice() {
+            const price = sessionRange.value;
+            const hours = sessionHours.value;
+            const total = price * hours;
+            
+            sessionPrice.textContent = price;
+            sessionTotal.textContent = total;
+            summarySession.textContent = total;
+            updateFinalTotal();
+        }
+
+        function updateEditPrice() {
+            const images = editImages.value;
+            const total = images * 50;
+            
+            editTotal.textContent = total;
+            summaryEdit.textContent = total;
+            updateFinalTotal();
+        }
+
+        function updateAlbumPrice() {
+            const price = albumRange.value;
+            const qty = albumQty.value;
+            const total = price * qty;
+            
+            albumPrice.textContent = price;
+            albumTotal.textContent = total;
+            summaryAlbum.textContent = total;
+            updateFinalTotal();
+        }
+
+        function updateDiscount() {
+            const discount = discountRange.value;
+            discountPercent.textContent = discount;
+            updateFinalTotal();
+        }
+
+        function updateFinalTotal() {
+            const sessionVal = parseInt(summarySession.textContent);
+            const editVal = parseInt(summaryEdit.textContent);
+            const albumVal = parseInt(summaryAlbum.textContent);
+            const discount = parseInt(discountRange.value);
+            
+            const subtotal = sessionVal + editVal + albumVal;
+            const discountAmount = (subtotal * discount) / 100;
+            const total = subtotal - discountAmount;
+            
+            finalTotal.textContent = total.toLocaleString('pt-BR');
+            savings.textContent = discountAmount.toLocaleString('pt-BR');
+        }
+
+        function generateQuote() {
+            const sessionVal = parseInt(summarySession.textContent);
+            const editVal = parseInt(summaryEdit.textContent);
+            const albumVal = parseInt(summaryAlbum.textContent);
+            const discount = parseInt(discountRange.value);
+            const total = parseInt(finalTotal.textContent.replace(/\./g, ''));
+            
+            const quoteContent = document.getElementById('quoteContent');
+            quoteContent.innerHTML = `
+                <div class="text-center mb-4">
+                    <strong>Estúdio FotoTest - Orçamento</strong>
+                </div>
+                <div> Tempo: R$ ${sessionVal.toLocaleString('pt-BR')}</div>
+                <div> Telas: R$ ${editVal.toLocaleString('pt-BR')}</div>
+                <div> Templates: R$ ${albumVal.toLocaleString('pt-BR')}</div>
+                ${discount > 0 ? `<div> Desconto: ${discount}%</div>` : ''}
+                <hr class="my-3 border-white/30">
+                <div class="text-lg font-bold">💰 Total: R$ ${total.toLocaleString('pt-BR')}</div>
+            `;
+            
+            document.getElementById('quoteModal').classList.remove('hidden');
+            document.getElementById('quoteModal').classList.add('flex');
+        }
+
+        function closeQuote() {
+            document.getElementById('quoteModal').classList.add('hidden');
+            document.getElementById('quoteModal').classList.remove('flex');
+        }
+
+        function resetCalculator() {
+            sessionRange.value = 150;
+            sessionHours.value = 2;
+            editImages.value = 10;
+            albumRange.value = 100;
+            albumQty.value = 1;
+            discountRange.value = 0;
+            
+            updateSessionPrice();
+            updateEditPrice();
+            updateAlbumPrice();
+            updateDiscount();
+        }
+
+        // Event listeners
+        sessionRange.addEventListener('input', updateSessionPrice);
+        sessionHours.addEventListener('input', updateSessionPrice);
+        editImages.addEventListener('input', updateEditPrice);
+        albumRange.addEventListener('input', updateAlbumPrice);
+        albumQty.addEventListener('input', updateAlbumPrice);
+        discountRange.addEventListener('input', updateDiscount);
+
+        // Initialize
+        updateSessionPrice();
+        updateEditPrice();
+        updateAlbumPrice();
+        updateDiscount();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9732baf9c442f213',t:'MTc1NTg2OTQ4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
