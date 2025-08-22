@@ -19,7 +19,9 @@ Ideal para **freelancers e equipes dev** que desejam **precificar projetos de fo
 ---
 
 ## 🖼️ Preview
-![Preview da Calculadora](./screenshot.png)  
+
+<img width="511" height="400" alt="Captura de tela 2025-08-22 113856" src="https://github.com/user-attachments/assets/0f888d4a-fdf6-4378-8cd5-8f8544a3d99f" />
+<img width="511" height="401" alt="Captura de tela 2025-08-22 114330" src="https://github.com/user-attachments/assets/42324e74-767e-464f-b322-02cdd3f3bff2" />
 
 ---
 
